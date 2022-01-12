@@ -11,10 +11,12 @@ export default class Application extends EventEmitter {
   constructor() {
     super();
     this._beat = new Beat();
-    this._create();
+    //this._create();
 
     this.emit(Application.events.READY);
     this.emit(Beat.events.BIT);
+
+    document.addEventListener(this._beat, this._create());
   }
 
   _create() {
