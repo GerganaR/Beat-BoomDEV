@@ -10,40 +10,33 @@ export default class Application extends EventEmitter {
 
   constructor() {
     super();
+    
     this._beat = new Beat();
-    //this._create();
 
-    this.emit(Application.events.READY);
-    this.emit(Beat.events.BIT);
 
-    document.addEventListener(this._beat, this._create());
-  }
-
-  _create() {
     const lyrics = ["Ah", "ha", "ha", "ha", "stayin' alive", "stayin' alive"];
     let count = 0;
-    // lyrics.forEach((bit) => console.log(bit));
 
-    // for (let i = 0; i < lyrics.length; i++) {
-    //   this._beat.on(Beat.events.BIT, (bit) => {
-    //     const message = document.createElement("div");
-    //     message.classList.add("message");
-    //     message.innerText = lyrics[i];
-    //     console.log(message);
+    this._beat.on(Beat.events.BIT, () => {
+      console.log(1)
+      this._create(lyrics[count])
 
-    //     document.querySelector(".main").appendChild(message);
-    //   });
-    // }
-
-    this._beat.on(Beat.events.BIT, (bit) => {
-      lyrics.forEach((bit) => {
-        const message = document.createElement("div");
-        message.classList.add("message");
-        message.innerText = bit;
-        console.log(bit);
-
-        document.querySelector(".main").appendChild(message);
-      });
+      count++;
+      if (count >= lyrics.length) {
+        count = 0;
+      }
     });
+
+    this.emit(Application.events.READY);
   }
+
+  _create = (word) => {
+    console.log(word);
+    const message = document.createElement("div");
+    message.classList.add("message");
+    message.innerText = word;
+
+    document.querySelector(".main").appendChild(message);
+  }
+
 }
